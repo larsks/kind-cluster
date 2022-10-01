@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-manager
+  namespace: cert-manager
+spec:
+  template:
+    spec:
+      containers:
+        - name: cert-manager
+          args:
+            - --v=2
+            - --cluster-resource-namespace=$(POD_NAMESPACE)
+            - --leader-election-namespace=cert-manager
+          volumeMounts:
+            - name: cacerts
+              mountPath: /etc/ssl/certs/house_ca_root.pem
+              subPath: house_ca_root.pem
+      volumes:
+        - name: cacerts
+          configMap:
+            name: house-ca-cert

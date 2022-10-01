@@ -1,0 +1,5 @@
+webhook:
+  discord:
+    body: |-
+      {"content": ":white_check_mark: Application {{.app.metadata.name}} has been successfully synced at {{.app.status.operationState.finishedAt}}.\nSync operation details are available at: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true .\n"}
+    method: POST

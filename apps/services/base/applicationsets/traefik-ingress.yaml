@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: traefik-ingress
+spec:
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            oddbit.com/services: "true"
+            oddbit.com/ingress: "traefik"
+  template:
+    metadata:
+      name: "{{name}}-traefik-ingress"
+    spec:
+      project: "cluster-{{name}}"
+      source:
+        repoURL: https://github.com/larsks/kind-cluster.git
+        targetRevision: HEAD
+        path: "./apps/traefik-ingress/overlays/{{name}}"
+      destination:
+        server: "{{server}}"
+        namespace: "traefik-ingress"
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
+        syncOptions:
+          - CreateNamespace=true
+        retry:
+          limit: -1
+          backoff:
+            duration: 30s
+            factor: 2
+            maxDuration: 10m

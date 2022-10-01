@@ -1,0 +1,41 @@
+# Patch Traefik deployment to read static configuration from environment
+# variables and to include our internal CA certificate.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traefik
+spec:
+  template:
+    spec:
+      containers:
+        - name: traefik
+          imagePullPolicy: Always
+
+          # Include Traefik environment configuration. Note that static
+          # configuration providers are mutually exclusive: we cannot use both
+          # command line options and environment variables.
+          envFrom:
+            - configMapRef:
+                name: traefik-env
+            - configMapRef:
+                name: traefik-env-overrides
+                optional: true
+          env:
+            - name: LEGO_CA_CERTIFICATES
+              value: /certs/root_ca.crt
+          volumeMounts:
+            - name: traefik-certs
+              mountPath: /certs
+            - name: traefik-certs
+              mountPath: /etc/ssl/certs/441ab690.0
+              subPath: root_ca.crt
+          args: []
+      volumes:
+        - name: traefik-certs
+          configMap:
+            name: traefik-certs
+        - name: data
+          emptyDir: null
+          persistentVolumeClaim:
+            claimName: traefik-data
