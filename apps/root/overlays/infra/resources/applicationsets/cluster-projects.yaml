@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cluster-projects
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  generators:
+    - clusters: {}
+  template:
+    metadata:
+      name: "{{name}}-cluster-projects"
+    spec:
+      project: "default"
+      source:
+        repoURL: https://github.com/larsks/kind-cluster.git
+        targetRevision: HEAD
+        path: "clusters/overlays/{{name}}/projects"
+      destination:
+        server: "https://kubernetes.default.svc"
+        namespace: argocd
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

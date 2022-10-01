@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: whoami
+spec:
+  generators:
+    - clusters: {}
+  template:
+    metadata:
+      name: "whoami-{{name}}"
+    spec:
+      project: "cluster-{{name}}"
+      source:
+        repoURL: https://github.com/larsks/kind-cluster.git
+        targetRevision: HEAD
+        path: "apps/whoami/overlays/{{name}}"
+      destination:
+        server: "{{server}}"
+        namespace: whoami
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

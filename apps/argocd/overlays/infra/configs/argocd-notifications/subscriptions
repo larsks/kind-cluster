@@ -1,0 +1,9 @@
+- recipients:
+    - discord
+  triggers:
+    - on-sync-failed
+    - on-sync-status-unknown
+    - on-health-degraded
+    - on-deployed
+    - on-created
+    - on-deleted

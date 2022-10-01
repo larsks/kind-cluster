@@ -1,0 +1,5 @@
+email:
+  subject: Application {{.app.metadata.name}} has been deleted.
+message: Application {{.app.metadata.name}} has been deleted.
+teams:
+  title: Application {{.app.metadata.name}} has been deleted.

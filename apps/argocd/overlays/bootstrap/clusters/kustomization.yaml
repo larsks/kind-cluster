@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+commonLabels:
+  argocd.argoproj.io/secret-type: cluster
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+secretGenerator:
+  - name: infra-cluster
+    envs:
+      - infra-cluster.env
+
+patches:
+  - patch: |-
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: infra-cluster
+        labels:
+          oddbit.com/services: "true"
+          oddbit.com/ingress: "traefik"

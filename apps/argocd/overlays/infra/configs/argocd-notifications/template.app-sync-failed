@@ -1,0 +1,5 @@
+webhook:
+  discord:
+    body: |-
+      {"content": ":exclamation:  The sync operation of application {{.app.metadata.name}} has failed at {{.app.status.operationState.finishedAt}} with the following error: {{.app.status.operationState.message}}\nSync operation details are available at: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true .\n"}
+    method: POST

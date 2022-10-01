@@ -1,0 +1,5 @@
+webhook:
+  discord:
+    body: |-
+      {"content": ":exclamation: {{.app.metadata.name}} sync is 'Unknown'.\nApplication details: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}.\n"}
+    method: POST

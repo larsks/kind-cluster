@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: whoami
+  annotations:
+    cert-manager.io/cluster-issuer: house
+
+spec:
+  rules:
+    - host: REPLACE IN OVERLAY
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  whoami
+                port:
+                  name: http
+  tls:
+    - hosts:
+      - REPLACE IN OVERLAY
+      secretName: whoami-cert

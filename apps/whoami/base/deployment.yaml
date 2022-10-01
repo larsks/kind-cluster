@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whoami
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: whoami
+          image: docker.io/containous/whoami
+          ports:
+            - containerPort: 80
+              name: http

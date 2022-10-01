@@ -1,0 +1,32 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: argocd
+
+resources:
+  - ../bootstrap
+  - externalsecrets
+  - ingresses
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+  - name: argocd-notifications-cm
+    behavior: merge
+    files:
+      - configs/argocd-notifications/context
+      - configs/argocd-notifications/subscriptions
+      - configs/argocd-notifications/template.app-created
+      - configs/argocd-notifications/template.app-deleted
+      - configs/argocd-notifications/template.app-deployed
+      - configs/argocd-notifications/template.app-health-degraded
+      - configs/argocd-notifications/template.app-sync-failed
+      - configs/argocd-notifications/template.app-sync-running
+      - configs/argocd-notifications/template.app-sync-status-unknown
+      - configs/argocd-notifications/template.app-sync-succeeded
+      - configs/argocd-notifications/service.webhook.discord
+
+  - name: argocd-gpg-keys-cm
+    behavior: merge
+    files:
+      - configs/argocd-gpg-keys/362D63A80853D4CF

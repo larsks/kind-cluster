@@ -1,0 +1,4 @@
+url: $discord-webhook-url
+headers:
+  - name: content-type
+    value: application/json
