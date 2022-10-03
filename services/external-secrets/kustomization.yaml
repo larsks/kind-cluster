@@ -6,5 +6,5 @@ commonLabels:
   app.kubernetes.io/instance: house
 
 resources:
-- ../../base
+- base
 - clustersecretstore.yaml
