@@ -3,7 +3,7 @@ kind: ApplicationSet
 metadata:
   name: projects
   annotations:
-    argocd.argoproj.io/sync-wave: -1
+    argocd.argoproj.io/sync-wave: -2
 spec:
   generators:
     - clusters: {}
