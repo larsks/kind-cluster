@@ -5,3 +5,5 @@ resources:
 - apps/argocd.yaml
 - applicationsets/projects.yaml
 - applicationsets/services.yaml
+- applicationsets/cluster-apps.yaml
+- applicationsets/cluster-projects.yaml
