@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: cert-manager
 
 resources:
-- ../../base
+- base
 - clusterissuers/house.yaml
 - clusterissuers/in-cluster.yaml
 
