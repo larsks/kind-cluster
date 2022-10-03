@@ -7,7 +7,7 @@ commonLabels:
   app.kubernetes.io/name: step-certificates
 
 resources:
-- ../../base
+- base
 - externalsecrets/step-certificates-ca-password.yaml
 - externalsecrets/step-certificates-secrets.yaml
 - jobs/create-acme-provisioner.yaml
