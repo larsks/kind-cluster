@@ -27,7 +27,7 @@ spec:
       source:
         repoURL: https://github.com/larsks/kind-cluster.git
         targetRevision: HEAD
-        path: "{{path}}/overlays/common"
+        path: "{{path}}"
       destination:
         server: "{{server}}"
         namespace: "{{path.basename}}"
