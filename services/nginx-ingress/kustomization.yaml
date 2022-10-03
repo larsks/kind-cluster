@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: nginx-ingress
 
 resources:
-- ../../base
+- base
 
 patches:
   - target:
