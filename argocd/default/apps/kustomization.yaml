@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
 - olm.yaml
 - dashboard.yaml
-- external-secrets.yaml
+  #- external-secrets.yaml
