@@ -1,0 +1,5 @@
+webhook:
+  discord:
+    body: |-
+      {"content": "Application {{.app.metadata.name}} has been created."}
+    method: POST

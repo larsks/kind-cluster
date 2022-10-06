@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: argocd
+
+resources:
+- namespace.yaml
+- https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+configMapGenerator:
+  - name: argocd-cmd-params-cm
+    behavior: merge
+    envs:
+      # Enable insecure mode (we'll handle TLS termination via an ingress)
+      - configs/argocd-cmd-params.env
+
+  - name: argocd-cm
+    behavior: merge
+    files:
+      # Prevent ingresses from always showing up as progressing
+      - configs/argocd/resource.customizations.health.networking.k8s.io_Ingress
+
+      # Using argocd.argoproj.io/instance for resource tracking
+      - configs/argocd/application.instanceLabelKey
+
+generatorOptions:
+  disableNameSuffixHash: true

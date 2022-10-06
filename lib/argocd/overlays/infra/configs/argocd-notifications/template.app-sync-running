@@ -1,0 +1,5 @@
+webhook:
+  discord:
+    body: |-
+      {"content": "The sync operation of application {{.app.metadata.name}} has started at {{.app.status.operationState.startedAt}}.\nSync operation details are available at: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true .\n"}
+    method: POST
