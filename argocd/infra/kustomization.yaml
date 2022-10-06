@@ -5,3 +5,18 @@ resources:
 - apps
 
 nameSuffix: -infra
+
+patches:
+  - target:
+      kind: Application
+      name: ".*"
+    patch: |
+      - op: add
+        path: /spec/syncPolicy
+        value:
+          automated:
+            selfHeal: true
+            prune: true
+          syncOptions:
+            - CreateNamespace=true
+
