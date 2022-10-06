@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: operators
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/larsks/kind-cluster.git
+    targetRevision: develop
+    path: operators/default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: operators
