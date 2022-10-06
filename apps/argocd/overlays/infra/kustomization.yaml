@@ -4,8 +4,13 @@ namespace: argocd
 
 resources:
   - ../bootstrap
-  - externalsecrets
-  - ingresses
+  - resources/clusters
+  - resources/externalsecrets
+  - resources/ingresses
+
+components:
+  - ../../components/web-terminal
+  - ../../components/notifications
 
 generatorOptions:
   disableNameSuffixHash: true

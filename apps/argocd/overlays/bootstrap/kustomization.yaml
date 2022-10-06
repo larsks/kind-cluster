@@ -4,11 +4,6 @@ namespace: argocd
 
 resources:
 - ../../base
-- clusters
-
-components:
-  - ../../components/web-terminal
-  - ../../components/notifications
 
 patches:
   - target:
