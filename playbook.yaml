@@ -9,6 +9,7 @@
         loop_var: cluster
 
     - name: get infra cluster info
+      tags: [always]
       set_fact:
         infra_cluster: "{{ clusters | selectattr('name', 'eq', 'infra') | first }}"
 
@@ -34,7 +35,7 @@
       tags: [apps]
       k8s:
         state: present
-        kustomize: "clusters/{{ infra_cluster.name }}-kubeconfig.yaml"
+        kubeconfig: "clusters/{{ infra_cluster.name }}-kubeconfig.yaml"
         definition: >-
-          {{ lookup("kubernetes.core.kustomize", dir="argocd/overlays/in-cluster") }}
+          {{ lookup("kubernetes.core.kustomize", dir="argocd/overlays/infra") }}
 

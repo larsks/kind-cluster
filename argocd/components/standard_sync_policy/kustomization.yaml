@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+patches:
+  - target:
+      kind: Application
+      name: ".*"
+    patch: |
+      apiVersion: argoproj.io/v1alpha1
+      kind: Application
+      metadata:
+        name: ignored
+      spec:
+        syncPolicy:
+          automated:
+            selfHeal: true
+            prune: true
+          syncOptions:
+            - CreateNamespace=true

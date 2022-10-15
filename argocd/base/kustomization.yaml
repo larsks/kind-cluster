@@ -3,16 +3,6 @@ kind: Kustomization
 resources:
   - apps
 
-patches:
-  - target:
-      kind: Application
-      name: ".*"
-    patch: |
-      apiVersion: argoproj.io/v1alpha1
-      kind: Application
-      metadata:
-        name: ignored
-      spec:
-        source:
-          repoURL: https://github.com/larsks/kind-cluster
-          targetRevision: ansible
+components:
+  - ../components/standard_repo_url
+  - ../components/standard_sync_policy

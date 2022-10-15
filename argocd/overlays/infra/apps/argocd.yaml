@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: root
+  name: argocd
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: REPOURL
     targetRevision: HEAD
-    path: argocd/base
+    path: apps/argocd/overlays/bootstrap
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
