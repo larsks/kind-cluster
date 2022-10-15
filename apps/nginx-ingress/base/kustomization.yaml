@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: nginx-ingress
+
+commonLabels:
+  app.kubernetes.io/name: nginx-ingress
+  app.kubernetes.io/instance: nginx-ingress
+
+resources:
+  - https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+
