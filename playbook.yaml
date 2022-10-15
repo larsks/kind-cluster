@@ -8,11 +8,20 @@
       loop_control:
         loop_var: cluster
 
-    - name: bootstrap infra cluster
+    - name: bootstrap argocd
       tags: [argocd]
       include_role:
         name: argocd
         apply:
           tags: [argocd]
+      vars:
+        cluster: "{{ clusters | selectattr('name', 'eq', 'infra') | first }}"
+
+    - name: install aws credentials
+      tags: [secrets]
+      include_role:
+        name: cluster_secrets
+        apply:
+          tags: [secrets]
       vars:
         cluster: "{{ clusters | selectattr('name', 'eq', 'infra') | first }}"

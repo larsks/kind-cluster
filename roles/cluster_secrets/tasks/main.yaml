@@ -1,0 +1,27 @@
+- name: ensure cluster-secrets namespace
+  k8s:
+    state: present
+    kubeconfig: "clusters/{{ cluster.name }}-kubeconfig.yaml"
+    api_version: v1
+    kind: Namespace
+    name: cluster-secrets
+
+- name: install aws credentials
+  k8s:
+    state: present
+    kubeconfig: "clusters/{{ cluster.name }}-kubeconfig.yaml"
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: aws-secrets-reader
+        namespace: cluster-secrets
+      type: Opaque
+      stringData:
+        AWS_ACCESS_KEY_ID: "{{ aws_secret_reader.AWS_ACCESS_KEY_ID }}"
+        AWS_SECRET_ACCESS_KEY: "{{ aws_secret_reader.AWS_SECRET_ACCESS_KEY }}"
+  vars:
+    aws_secret_reader: >-
+      {{
+        lookup('amazon.aws.aws_secret', aws_secrets_reader_secret_id)
+      }}
