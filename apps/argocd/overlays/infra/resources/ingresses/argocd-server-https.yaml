@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argocd-server-https
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls.certresolver: incluster
+    cert-manager.io/cluster-issuer: house
+
+spec:
+  rules:
+    - host: argocd.apps.infra.house
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  argocd-server
+                port:
+                  name: http
+  tls:
+    - hosts:
+      - argocd.apps.infra.house
+      secretName: argocd-cert

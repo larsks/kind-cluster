@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: argocd
+
+resources:
+- ../../base
+
+components:
+  - ../../components/web-terminal
+
+patches:
+  - target:
+      kind: Service
+      name: argocd-server
+    patch: |
+      - op: add
+        path: /spec/type
+        value: NodePort
+      - op: add
+        path: /spec/ports/0/nodePort
+        value: 30100
+      - op: add
+        path: /spec/ports/1/nodePort
+        value: 30101

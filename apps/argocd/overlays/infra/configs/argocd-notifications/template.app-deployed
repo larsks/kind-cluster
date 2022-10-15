@@ -1,0 +1,5 @@
+webhook:
+  discord:
+    body: |-
+      {"content": ":white_check_mark: Application {{.app.metadata.name}} is now running new version of deployments manifests.\n"}
+    method: POST

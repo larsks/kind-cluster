@@ -1,0 +1,18 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: create clusters
+      include_role:
+        name: kind-cluster
+      loop: "{{ clusters }}"
+      loop_control:
+        loop_var: cluster
+
+    - name: bootstrap infra cluster
+      tags: [argocd]
+      include_role:
+        name: argocd
+        apply:
+          tags: [argocd]
+      vars:
+        cluster: "{{ clusters | selectattr('name', 'eq', 'infra') | first }}"

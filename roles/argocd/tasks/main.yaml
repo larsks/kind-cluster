@@ -1,0 +1,37 @@
+- name: install argocd bootstrap
+  k8s:
+    kubeconfig: "clusters/{{ cluster.name }}-kubeconfig.yaml"
+    state: present
+    definition: >-
+      {{ lookup("kubernetes.core.kustomize", dir="apps/argocd/overlays/bootstrap") }}
+
+- name: wait for argocd deployments to settle
+  k8s_info:
+    kubeconfig: "clusters/{{ cluster.name }}-kubeconfig.yaml"
+    api_version: apps/v1
+    kind: Deployment
+    namespace: argocd
+  register: argocd
+  # loop until the number of deployments with readyReplicas
+  # is equal to the total number of deployments
+  until: >-
+    argocd.resources|json_query('[?status.readyReplicas >= `1`]')|length
+    == argocd.resources|length
+  delay: 2
+  retries: 60
+
+- name: set argocd secret
+  when: argocd_admin_password is defined
+  k8s:
+    state: present
+    kubeconfig: "clusters/{{ cluster.name }}-kubeconfig.yaml"
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: argocd-secret
+        namespace: argocd
+      type: Opaque
+      stringData:
+        admin.password: "{{ argocd_admin_password|password_hash('bcrypt') }}"
+        admin.passwordMtime: "{{ lookup('pipe', 'env TZ=UTC date -Iseconds') }}"

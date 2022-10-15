@@ -1,0 +1,29 @@
+- name: ensure clusters directory exists
+  file:
+    path: clusters
+    state: directory
+
+- name: generate cluster configuration
+  template:
+    src: config.j2.yaml
+    dest: clusters/{{ cluster.name }}-config.yaml
+
+- name: check if cluster exists
+  command: kind get kubeconfig -n {{ cluster.name }}
+  register: cluster_exists
+  failed_when: false
+  changed_when: cluster_exists.rc != 0
+
+- name: create cluster
+  when: cluster_exists is changed
+  command: kind create cluster --config clusters/{{ cluster.name }}-config.yaml
+
+- name: get cluster kubeconfig
+  command: kind get kubeconfig -n {{ cluster.name }}
+  changed_when: false
+  register: kubeconfig
+
+- name: write cluster kubeconfig
+  copy:
+    content: "{{ kubeconfig.stdout }}"
+    dest: clusters/{{ cluster.name }}-kubeconfig.yaml
