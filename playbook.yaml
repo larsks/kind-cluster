@@ -8,6 +8,10 @@
       loop_control:
         loop_var: cluster
 
+    - name: get infra cluster info
+      set_fact:
+        infra_cluster: "{{ clusters | selectattr('name', 'eq', 'infra') | first }}"
+
     - name: bootstrap argocd
       tags: [argocd]
       include_role:
@@ -15,7 +19,7 @@
         apply:
           tags: [argocd]
       vars:
-        cluster: "{{ clusters | selectattr('name', 'eq', 'infra') | first }}"
+        cluster: "{{ infra_cluster }}"
 
     - name: install aws credentials
       tags: [secrets]
@@ -24,4 +28,13 @@
         apply:
           tags: [secrets]
       vars:
-        cluster: "{{ clusters | selectattr('name', 'eq', 'infra') | first }}"
+        cluster: "{{ infra_cluster }}"
+
+    - name: deploy root app
+      tags: [apps]
+      k8s:
+        state: present
+        kustomize: "clusters/{{ infra_cluster.name }}-kubeconfig.yaml"
+        definition: >-
+          {{ lookup("kubernetes.core.kustomize", dir="argocd/overlays/in-cluster") }}
+
