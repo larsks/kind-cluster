@@ -20,3 +20,13 @@ patches:
       spec:
         source:
           path: argocd/overlays/infra
+
+  - patch: |
+      apiVersion: argoproj.io/v1alpha1
+      kind: Application
+      metadata:
+        name: cert-manager
+        namespace: argocd
+      spec:
+        source:
+          path: apps/cert-manager/overlays/infra
