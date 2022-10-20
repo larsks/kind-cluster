@@ -4,9 +4,8 @@ namespace: argocd
 
 resources:
   - ../bootstrap
-  - resources/clusters
-  - resources/externalsecrets
-  - resources/ingresses
+  - externalsecrets
+  - ingresses
 
 generatorOptions:
   disableNameSuffixHash: true

@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: REPOURL
     targetRevision: HEAD
-    path: apps/argocd/overlays/bootstrap
+    path: apps/argocd/overlays/infra
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
