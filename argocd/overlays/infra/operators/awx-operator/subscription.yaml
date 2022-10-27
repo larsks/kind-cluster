@@ -1,0 +1,10 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: awx-operator
+spec:
+  name: awx-operator
+  channel: alpha
+  installPlanApproval: automatic
+  sourceNamespace: olm
+  source: operatorhubio-catalog
