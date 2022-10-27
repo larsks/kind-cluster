@@ -5,3 +5,4 @@ resources:
 - external-secrets.yaml
 - nginx-ingress.yaml
 - cert-manager.yaml
+- olm.yaml
