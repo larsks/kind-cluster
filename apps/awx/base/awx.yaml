@@ -1,0 +1,10 @@
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: awx
+spec:
+  hostname: awx.apps.infra.house
+  ingress_type: ingress
+  ingress_annotations: |
+    cert-manager.io/cluster-issuer: house
+  ingress_tls_secret: awx-cert
